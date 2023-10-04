@@ -1,0 +1,25 @@
+{
+  "description": "Fastly",
+  "scripts": {
+    "build.server": "vite build -c adapters/fastly/vite.config.ts",
+    "deploy": "fastly compute publish",
+    "serve": "fastly compute serve"
+  },
+  "devDependencies": {
+    "fastly": "^6.1.1"
+  },
+  "__qwik__": {
+    "priority": 40,
+    "displayName": "Adapter: Fastly",
+    "docs": [],
+    "nextSteps": {
+      "title": "Next Steps",
+      "lines": [
+        "Now you can build and deploy to Fastly with:",
+        "",
+        "- pnpm run build: production build for Fastly",
+        "- pnpm run deploy: it will use the Fastly CLI to deploy your site"
+      ]
+    }
+  }
+}

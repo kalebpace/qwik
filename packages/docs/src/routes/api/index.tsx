@@ -5,6 +5,7 @@ import { toSnakeCase } from '../../utils/utils';
 // TODO: load the content of these files using fs instead of importing them
 import qwikCityMiddlewareAzureSwaApiData from './qwik-city-middleware-azure-swa/api.json';
 import qwikCityMiddlewareCloudflarePagesApiData from './qwik-city-middleware-cloudflare-pages/api.json';
+import qwikCityMiddlewareFastlyApiData from './qwik-city-middleware-fastly/api.json';
 import qwikCityMiddlewareFirebaseApiData from './qwik-city-middleware-firebase/api.json';
 import qwikCityMiddlewareNetlifyEdgeApiData from './qwik-city-middleware-netlify-edge/api.json';
 import qwikCityMiddlewareNodeApiData from './qwik-city-middleware-node/api.json';
@@ -14,6 +15,7 @@ import qwikCityStaticApiData from './qwik-city-static/api.json';
 import qwikCityViteAzureSwaApiData from './qwik-city-vite-azure-swa/api.json';
 import qwikCityViteCloudRunApiData from './qwik-city-vite-cloud-run/api.json';
 import qwikCityViteCloudflarePagesApiData from './qwik-city-vite-cloudflare-pages/api.json';
+import qwikCityViteFastlyApiData from './qwik-city-vite-fastly/api.json';
 import qwikCityViteNetlifyEdgeApiData from './qwik-city-vite-netlify-edge/api.json';
 import qwikCityViteNodeServerApiData from './qwik-city-vite-node-server/api.json';
 import qwikCityViteStaticApiData from './qwik-city-vite-static/api.json';
@@ -31,6 +33,7 @@ const apiData = {
   'qwik-city': qwikCityApiData,
   'qwik-city-middleware-azure-swa': qwikCityMiddlewareAzureSwaApiData,
   'qwik-city-middleware-cloudflare-pages': qwikCityMiddlewareCloudflarePagesApiData,
+  'qwik-city-middleware-fastly': qwikCityMiddlewareFastlyApiData,
   'qwik-city-middleware-netlify-edge': qwikCityMiddlewareNetlifyEdgeApiData,
   'qwik-city-middleware-node': qwikCityMiddlewareNodeApiData,
   'qwik-city-middleware-request-handler': qwikCityMiddlewareRequestHandlerApiData,
@@ -40,6 +43,7 @@ const apiData = {
   'qwik-city-vite-azure-swa': qwikCityViteAzureSwaApiData,
   'qwik-city-vite-cloud-run': qwikCityViteCloudRunApiData,
   'qwik-city-vite-cloudflare-pages': qwikCityViteCloudflarePagesApiData,
+  'qwik-city-vite-fastly': qwikCityViteFastlyApiData,
   'qwik-city-vite-node-server': qwikCityViteNodeServerApiData,
   'qwik-city-vite-netlify-edge': qwikCityViteNetlifyEdgeApiData,
   'qwik-city-vite-static': qwikCityViteStaticApiData,
@@ -85,9 +89,8 @@ export default component$(() => {
             onClick$={() => {
               filters[kind] = !filters[kind];
             }}
-            class={`filter-item block text-sm rounded-md text-left ${
-              filters[kind] ? 'active' : ''
-            }`}
+            class={`filter-item block text-sm rounded-md text-left ${filters[kind] ? 'active' : ''
+              }`}
             data-kind-label={kind.substring(0, 1).toUpperCase()}
           >
             {kind.split('-').join(' ')}
@@ -106,7 +109,7 @@ export default component$(() => {
 export const ApiMemberWrapper = component$(({ id, data, filters }: any) => {
   const isCollapsed = useSignal(true);
 
-  useTask$(({track}) => {
+  useTask$(({ track }) => {
     track(filters);
     if (isBrowser) {
       isCollapsed.value = false;
@@ -118,7 +121,7 @@ export const ApiMemberWrapper = component$(({ id, data, filters }: any) => {
     isCollapsed.value = false;
   }));
 
-  if(!data.members.length) {
+  if (!data.members.length) {
     return null;
   }
 
@@ -127,7 +130,7 @@ export const ApiMemberWrapper = component$(({ id, data, filters }: any) => {
       <h2
         data-icon={isCollapsed.value ? '→' : '↓'}
         class="section-title cursor-pointer"
-        onClick$={(e) => isCollapsed.value = !isCollapsed.value }
+        onClick$={(e) => isCollapsed.value = !isCollapsed.value}
       >
         <span>{data.id}</span>
       </h2>
@@ -158,9 +161,8 @@ export const ApiMemberList = component$(({ id, data, filters }: any) => (
           key={`${id}-member-${member.id}-${kind}`}
           data-kind={kind}
           data-kind-label={kind.substring(0, 1).toUpperCase()}
-          class={`api-item list-none text-xs ${
-            (kind in filters && !filters[kind] && 'hidden') || ''
-          }`}
+          class={`api-item list-none text-xs ${(kind in filters && !filters[kind] && 'hidden') || ''
+            }`}
         >
           <a href={`${data.id}#${name}`}>{member.name}</a>
         </li>

@@ -3,7 +3,12 @@
     "incremental": true,
     "target": "ES2020",
     "module": "ES2020",
-    "lib": ["es2021", "DOM", "webworker", "DOM.Iterable"],
+    "lib": [
+      "es2021",
+      "DOM",
+      "webworker",
+      "DOM.Iterable"
+    ],
     "resolveJsonModule": true,
     "jsx": "react-jsx",
     "allowArbitraryExtensions": true,
@@ -18,15 +23,33 @@
     "assumeChangesOnlyAffectDirectDependencies": true,
     "noUnusedLocals": true,
     "paths": {
-      "@builder.io/qwik": ["packages/qwik/src/core/index.ts"],
-      "@builder.io/qwik/build": ["packages/qwik/src/build/index.ts"],
-      "@builder.io/qwik/jsx-runtime": ["packages/qwik/src/jsx-runtime/index.ts"],
-      "@builder.io/qwik/jsx-dev-runtime": ["packages/qwik/src/jsx-runtime/index.ts"],
-      "@builder.io/qwik/optimizer": ["packages/qwik/src/optimizer/src/index.ts"],
-      "@builder.io/qwik/server": ["packages/qwik/src/server/index.ts"],
-      "@builder.io/qwik/testing": ["packages/qwik/src/testing/index.ts"],
-      "@builder.io/qwik-react": ["packages/qwik-react/src/index.ts"],
-      "@builder.io/qwik-city": ["packages/qwik-city/runtime/src/index.ts"],
+      "@builder.io/qwik": [
+        "packages/qwik/src/core/index.ts"
+      ],
+      "@builder.io/qwik/build": [
+        "packages/qwik/src/build/index.ts"
+      ],
+      "@builder.io/qwik/jsx-runtime": [
+        "packages/qwik/src/jsx-runtime/index.ts"
+      ],
+      "@builder.io/qwik/jsx-dev-runtime": [
+        "packages/qwik/src/jsx-runtime/index.ts"
+      ],
+      "@builder.io/qwik/optimizer": [
+        "packages/qwik/src/optimizer/src/index.ts"
+      ],
+      "@builder.io/qwik/server": [
+        "packages/qwik/src/server/index.ts"
+      ],
+      "@builder.io/qwik/testing": [
+        "packages/qwik/src/testing/index.ts"
+      ],
+      "@builder.io/qwik-react": [
+        "packages/qwik-react/src/index.ts"
+      ],
+      "@builder.io/qwik-city": [
+        "packages/qwik-city/runtime/src/index.ts"
+      ],
       "@builder.io/qwik-city/service-worker": [
         "packages/qwik-city/runtime/src/service-worker/index.ts"
       ],
@@ -48,34 +71,59 @@
       "@builder.io/qwik-city/adapters/static/vite": [
         "packages/qwik-city/adapters/static/vite/index.ts"
       ],
-      "@builder.io/qwik-city/middleware/azure-swa": ["packages/qwik-city/middleware/azure-swa"],
+      "@builder.io/qwik-city/middleware/azure-swa": [
+        "packages/qwik-city/middleware/azure-swa"
+      ],
       "@builder.io/qwik-city/middleware/request-handler": [
         "packages/qwik-city/middleware/request-handler"
       ],
-      "@builder.io/qwik-city/middleware/node": ["packages/qwik-city/middleware/node"],
+      "@builder.io/qwik-city/middleware/node": [
+        "packages/qwik-city/middleware/node"
+      ],
       "@builder.io/qwik-city/middleware/netlify-edge": [
         "packages/qwik-city/middleware/netlify-edge"
       ],
-      "@builder.io/qwik-city/static": ["packages/qwik-city/static/index.ts"],
-      "@builder.io/qwik-city/vite": ["packages/qwik-city/buildtime/vite/index"],
-      "@examples-data": ["packages/docs/src/routes/examples/apps/examples-data.ts"],
-      "@playground-data": ["packages/docs/src/routes/playground/playground-data.ts"],
-      "@tutorial-data": ["packages/docs/src/routes/tutorial/tutorial-data.ts"],
-      "@qwik-client-manifest": ["packages/qwik/src/server/server-modules.d.ts"],
-      "@qwik-city-plan": ["packages/qwik-city/runtime/src/qwik-city-plan.ts"],
+      "@builder.io/qwik-city/static": [
+        "packages/qwik-city/static/index.ts"
+      ],
+      "@builder.io/qwik-city/vite": [
+        "packages/qwik-city/buildtime/vite/index"
+      ],
+      "@examples-data": [
+        "packages/docs/src/routes/examples/apps/examples-data.ts"
+      ],
+      "@playground-data": [
+        "packages/docs/src/routes/playground/playground-data.ts"
+      ],
+      "@tutorial-data": [
+        "packages/docs/src/routes/tutorial/tutorial-data.ts"
+      ],
+      "@qwik-client-manifest": [
+        "packages/qwik/src/server/server-modules.d.ts"
+      ],
+      "@qwik-city-plan": [
+        "packages/qwik-city/runtime/src/qwik-city-plan.ts"
+      ],
       "@qwik-city-sw-register-build": [
         "packages/qwik-city/buildtime/runtime-generation/sw-register-build.ts"
       ],
-      "@qwik-city-sw-register": ["packages/qwik-city/runtime/src/sw-register-runtime.ts"],
+      "@qwik-city-sw-register": [
+        "packages/qwik-city/runtime/src/sw-register-runtime.ts"
+      ],
       "@qwik-city-not-found-paths": [
         "packages/qwik-city/middleware/request-handler/generated/not-found-paths.ts"
       ],
       "@qwik-city-static-paths": [
         "packages/qwik-city/middleware/request-handler/generated/static-paths.ts"
       ],
-      "create-qwik": ["packages/create-qwik/api/index.ts"]
+      "create-qwik": [
+        "packages/create-qwik/api/index.ts"
+      ]
     },
-    "types": ["node", "vite/client"],
+    "types": [
+      "node",
+      "vite/client"
+    ],
     "esModuleInterop": true,
     "sourceRoot": ".",
     "inlineSourceMap": true,
