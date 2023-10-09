@@ -673,7 +673,7 @@ async function buildMiddlewareFastly(config: BuildConfig) {
     platform: 'node',
     target: nodeTarget,
     format: 'esm',
-    external: MIDDLEWARE_EXTERNALS,
+    external: [...MIDDLEWARE_EXTERNALS, "fastly:*"],
     plugins: [resolveRequestHandler('../request-handler/index.mjs')],
   });
 }

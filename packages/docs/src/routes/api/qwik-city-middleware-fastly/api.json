@@ -12,7 +12,7 @@
         }
       ],
       "kind": "Function",
-      "content": "```typescript\nexport declare function createQwikCity(opts: QwikCityFastlyOptions): (request: PlatformFastly['request'], env: Record<string, any> & {\n    ASSETS: {\n        fetch: (req: Request) => Response;\n    };\n}, ctx: PlatformFastly['ctx']) => Promise<Response>;\n```\n\n\n|  Parameter | Type | Description |\n|  --- | --- | --- |\n|  opts | [QwikCityFastlyOptions](#qwikcityfastlyoptions) |  |\n\n**Returns:**\n\n(request: [PlatformFastly](#platformfastly)<!-- -->\\['request'\\], env: Record&lt;string, any&gt; &amp; { ASSETS: { fetch: (req: Request) =&gt; Response; }; }, ctx: [PlatformFastly](#platformfastly)<!-- -->\\['ctx'\\]) =&gt; Promise&lt;Response&gt;",
+      "content": "```typescript\nexport declare function createQwikCity(opts: QwikCityFastlyOptions): (platform: PlatformFastly) => Promise<Response | import(\"fastly:cache\").SimpleCacheEntry>;\n```\n\n\n|  Parameter | Type | Description |\n|  --- | --- | --- |\n|  opts | [QwikCityFastlyOptions](#qwikcityfastlyoptions) |  |\n\n**Returns:**\n\n(platform: [PlatformFastly](#platformfastly)<!-- -->) =&gt; Promise&lt;Response \\| import(\"fastly:cache\").SimpleCacheEntry&gt;",
       "editUrl": "https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/middleware/fastly/index.ts",
       "mdFile": "qwik-city.createqwikcity.md"
     },
@@ -26,7 +26,7 @@
         }
       ],
       "kind": "Interface",
-      "content": "```typescript\nexport interface PlatformFastly \n```\n\n\n|  Property | Modifiers | Type | Description |\n|  --- | --- | --- | --- |\n|  [ctx](#) |  | { waitUntil: (promise: Promise&lt;any&gt;) =&gt; void; } |  |\n|  [env?](#) |  | Record&lt;string, any&gt; | _(Optional)_ |\n|  [request](#) |  | Request |  |",
+      "content": "```typescript\nexport interface PlatformFastly \n```\n\n\n|  Property | Modifiers | Type | Description |\n|  --- | --- | --- | --- |\n|  [client](#) | <code>readonly</code> | ClientInfo |  |\n|  [request](#) | <code>readonly</code> | Request |  |\n\n\n|  Method | Description |\n|  --- | --- |\n|  [respondWith(response)](#platformfastly-respondwith) |  |\n|  [waitUntil(promise)](#platformfastly-waituntil) |  |",
       "editUrl": "https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/middleware/fastly/index.ts",
       "mdFile": "qwik-city.platformfastly.md"
     },
@@ -43,6 +43,40 @@
       "content": "```typescript\nexport interface QwikCityFastlyOptions extends ServerRenderOptions \n```\n**Extends:** ServerRenderOptions",
       "editUrl": "https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/middleware/fastly/index.ts",
       "mdFile": "qwik-city.qwikcityfastlyoptions.md"
+    },
+    {
+      "name": "respondWith",
+      "id": "platformfastly-respondwith",
+      "hierarchy": [
+        {
+          "name": "PlatformFastly",
+          "id": "platformfastly-respondwith"
+        },
+        {
+          "name": "respondWith",
+          "id": "platformfastly-respondwith"
+        }
+      ],
+      "kind": "MethodSignature",
+      "content": "```typescript\nrespondWith(response: Response | PromiseLike<Response>): void;\n```\n\n\n|  Parameter | Type | Description |\n|  --- | --- | --- |\n|  response | Response \\| PromiseLike&lt;Response&gt; |  |\n\n**Returns:**\n\nvoid",
+      "mdFile": "qwik-city.platformfastly.respondwith.md"
+    },
+    {
+      "name": "waitUntil",
+      "id": "platformfastly-waituntil",
+      "hierarchy": [
+        {
+          "name": "PlatformFastly",
+          "id": "platformfastly-waituntil"
+        },
+        {
+          "name": "waitUntil",
+          "id": "platformfastly-waituntil"
+        }
+      ],
+      "kind": "MethodSignature",
+      "content": "```typescript\nwaitUntil(promise: Promise<any>): void;\n```\n\n\n|  Parameter | Type | Description |\n|  --- | --- | --- |\n|  promise | Promise&lt;any&gt; |  |\n\n**Returns:**\n\nvoid",
+      "mdFile": "qwik-city.platformfastly.waituntil.md"
     }
   ]
 }

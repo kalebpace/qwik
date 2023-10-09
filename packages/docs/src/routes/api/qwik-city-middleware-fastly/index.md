@@ -7,15 +7,11 @@ title: \@builder.io/qwik-city/middleware/fastly API Reference
 ## createQwikCity
 
 ```typescript
-export declare function createQwikCity(opts: QwikCityFastlyOptions): (
-  request: PlatformFastly["request"],
-  env: Record<string, any> & {
-    ASSETS: {
-      fetch: (req: Request) => Response;
-    };
-  },
-  ctx: PlatformFastly["ctx"],
-) => Promise<Response>;
+export declare function createQwikCity(
+  opts: QwikCityFastlyOptions,
+): (
+  platform: PlatformFastly,
+) => Promise<Response | import("fastly:cache").SimpleCacheEntry>;
 ```
 
 | Parameter | Type                                            | Description |
@@ -24,7 +20,7 @@ export declare function createQwikCity(opts: QwikCityFastlyOptions): (
 
 **Returns:**
 
-(request: [PlatformFastly](#platformfastly)['request'], env: Record&lt;string, any&gt; &amp; { ASSETS: { fetch: (req: Request) =&gt; Response; }; }, ctx: [PlatformFastly](#platformfastly)['ctx']) =&gt; Promise&lt;Response&gt;
+(platform: [PlatformFastly](#platformfastly)) =&gt; Promise&lt;Response \| import("fastly:cache").SimpleCacheEntry&gt;
 
 [Edit this section](https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/middleware/fastly/index.ts)
 
@@ -34,11 +30,15 @@ export declare function createQwikCity(opts: QwikCityFastlyOptions): (
 export interface PlatformFastly
 ```
 
-| Property     | Modifiers | Type                                                     | Description  |
-| ------------ | --------- | -------------------------------------------------------- | ------------ |
-| [ctx](#)     |           | { waitUntil: (promise: Promise&lt;any&gt;) =&gt; void; } |              |
-| [env?](#)    |           | Record&lt;string, any&gt;                                | _(Optional)_ |
-| [request](#) |           | Request                                                  |              |
+| Property     | Modifiers             | Type       | Description |
+| ------------ | --------------------- | ---------- | ----------- |
+| [client](#)  | <code>readonly</code> | ClientInfo |             |
+| [request](#) | <code>readonly</code> | Request    |             |
+
+| Method                                               | Description |
+| ---------------------------------------------------- | ----------- |
+| [respondWith(response)](#platformfastly-respondwith) |             |
+| [waitUntil(promise)](#platformfastly-waituntil)      |             |
 
 [Edit this section](https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/middleware/fastly/index.ts)
 
@@ -51,3 +51,31 @@ export interface QwikCityFastlyOptions extends ServerRenderOptions
 **Extends:** ServerRenderOptions
 
 [Edit this section](https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/middleware/fastly/index.ts)
+
+## respondWith
+
+```typescript
+respondWith(response: Response | PromiseLike<Response>): void;
+```
+
+| Parameter | Type                                    | Description |
+| --------- | --------------------------------------- | ----------- |
+| response  | Response \| PromiseLike&lt;Response&gt; |             |
+
+**Returns:**
+
+void
+
+## waitUntil
+
+```typescript
+waitUntil(promise: Promise<any>): void;
+```
+
+| Parameter | Type               | Description |
+| --------- | ------------------ | ----------- |
+| promise   | Promise&lt;any&gt; |             |
+
+**Returns:**
+
+void

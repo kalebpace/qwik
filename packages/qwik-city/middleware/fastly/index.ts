@@ -11,13 +11,15 @@ import { isStaticPath } from '@qwik-city-static-paths';
 import { _deserializeData, _serializeData, _verifySerializable } from '@builder.io/qwik';
 import { setServerPlatform } from '@builder.io/qwik/server';
 
+import { env } from "fastly:env"
+import { SimpleCache } from "fastly:cache";
+
 // @builder.io/qwik-city/middleware/fastly
 
 /**
  * @public
  */
 export function createQwikCity(opts: QwikCityFastlyOptions) {
-  (globalThis as any).TextEncoderStream = TextEncoderStream;
   const qwikSerializer = {
     _deserializeData,
     _serializeData,
@@ -26,17 +28,15 @@ export function createQwikCity(opts: QwikCityFastlyOptions) {
   if (opts.manifest) {
     setServerPlatform(opts.manifest);
   }
-  async function onFastlyFetch(
-    request: PlatformFastly['request'],
-    env: PlatformFastly['env'] & { ASSETS: { fetch: (req: Request) => Response } },
-    ctx: PlatformFastly['ctx']
-  ) {
+  async function onFastlyFetch(platform: PlatformFastly) {
+    (globalThis as any).TextEncoderStream = TextEncoderStream;
     try {
+      const { request, client } = platform;
       const url = new URL(request.url);
 
       if (isStaticPath(request.method, url)) {
-        // known static path, let cloudflare handle it
-        return env.ASSETS.fetch(request);
+        // known static path, let fastly handle it.
+        return fetch(request, { backend: platform.request.backend });
       }
 
       const useCache =
@@ -44,13 +44,10 @@ export function createQwikCity(opts: QwikCityFastlyOptions) {
         url.hostname !== 'localhost' &&
         url.port === '' &&
         request.method === 'GET';
-      const cacheKey = new Request(url.href, request);
-      const cache = useCache ? await caches.open('custom:qwikcity') : null;
-      if (cache) {
-        const cachedResponse = await cache.match(cacheKey);
-        if (cachedResponse) {
-          return cachedResponse;
-        }
+      const cacheKey = request.method.concat(url.href);
+      const cachedResponse = useCache ? SimpleCache.get(cacheKey) : null
+      if (cachedResponse) {
+        return cachedResponse
       }
 
       const serverRequestEv: ServerRequestEvent<Response> = {
@@ -60,7 +57,7 @@ export function createQwikCity(opts: QwikCityFastlyOptions) {
         request,
         env: {
           get(key) {
-            return env[key];
+            return env(key);
           },
         },
         getWritableStream: (status, headers, cookies, resolve) => {
@@ -74,15 +71,11 @@ export function createQwikCity(opts: QwikCityFastlyOptions) {
         },
         getClientConn: () => {
           return {
-            // ip: request.headers.get('CF-connecting-ip') || '',
-            // country: request.headers.get('CF-IPCountry') || '',
+            ip: client.address,
+            country: client.geo.country_name || undefined
           };
         },
-        platform: {
-          request,
-          env,
-          ctx,
-        },
+        platform,
       };
 
       // send request to qwik city request handler
@@ -95,11 +88,13 @@ export function createQwikCity(opts: QwikCityFastlyOptions) {
         });
         const response = await handledResponse.response;
         if (response) {
-          if (response.ok && cache && response.headers.has('Cache-Control')) {
-            // Store the fetched response as cacheKey
-            // Use waitUntil so you can return the response without blocking on
-            // writing to cache
-            ctx.waitUntil(cache.put(cacheKey, response.clone()));
+          if (useCache && response.ok && response.body && response.headers.has('Cache-Control')) {
+            platform.waitUntil(SimpleCache.getOrSet(cacheKey, async () => {
+              return {
+                value: response.body!,
+                ttl: 60
+              }
+            }))
           }
           return response;
         }
@@ -133,16 +128,19 @@ export interface QwikCityFastlyOptions extends ServerRenderOptions { }
  * @public
  */
 export interface PlatformFastly {
-  request: Request;
-  env?: Record<string, any>;
-  ctx: { waitUntil: (promise: Promise<any>) => void };
+  // Extending from or using FetchEvent found in @fastly/js-compute causes the following error:
+  //   ❌ Error: Internal Error: Unable to follow symbol for "FetchEvent"
+  //   https://js-compute-reference-docs.edgecompute.app/docs/globals/FetchEvent/
+  readonly client: ClientInfo;
+  readonly request: Request;
+  respondWith(response: Response | PromiseLike<Response>): void;
+  waitUntil(promise: Promise<any>): void;
 }
 
 const resolved = Promise.resolve();
-
 class TextEncoderStream {
   // minimal polyfill implementation of TextEncoderStream
-  // since Cloudflare Pages doesn't support readable.pipeTo()
+  // borrowed from Cloudflare Pages adapter
   _writer: any;
   readable: any;
   writable: any;

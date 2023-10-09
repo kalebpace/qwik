@@ -4,25 +4,24 @@
 
 ```ts
 
+/// <reference types="@fastly/js-compute" />
+
 import type { ServerRenderOptions } from '@builder.io/qwik-city/middleware/request-handler';
+import { SimpleCacheEntry } from 'fastly:cache';
 
 // @public (undocumented)
-export function createQwikCity(opts: QwikCityFastlyOptions): (request: PlatformFastly['request'], env: Record<string, any> & {
-    ASSETS: {
-        fetch: (req: Request) => Response;
-    };
-}, ctx: PlatformFastly['ctx']) => Promise<Response>;
+export function createQwikCity(opts: QwikCityFastlyOptions): (platform: PlatformFastly) => Promise<Response | SimpleCacheEntry>;
 
 // @public (undocumented)
 export interface PlatformFastly {
     // (undocumented)
-    ctx: {
-        waitUntil: (promise: Promise<any>) => void;
-    };
+    readonly client: ClientInfo;
     // (undocumented)
-    env?: Record<string, any>;
+    readonly request: Request;
     // (undocumented)
-    request: Request;
+    respondWith(response: Response | PromiseLike<Response>): void;
+    // (undocumented)
+    waitUntil(promise: Promise<any>): void;
 }
 
 // @public (undocumented)
