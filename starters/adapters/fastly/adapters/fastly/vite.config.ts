@@ -10,6 +10,6 @@ export default extendConfig(baseConfig, () => {
         input: ["src/entry.fastly.tsx", "@qwik-city-plan"],
       },
     },
-    plugins: [fastlyAdapter()],
+    plugins: [fastlyAdapter({ ssg: null })],
   };
 });

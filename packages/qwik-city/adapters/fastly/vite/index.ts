@@ -23,20 +23,6 @@ export function fastlyAdapter(opts: FastlyAdapterOptions = {}): any {
         },
         ssr: {
           target: 'webworker',
-          external: [
-            "fastly:env",
-            "fastly:backend",
-            "fastly:cache-override",
-            "fastly:cache",
-            "fastly:config-store",
-            "fastly:dictionary",
-            "fastly:experimental",
-            "fastly:fanout",
-            "fastly:geolocation",
-            "fastly:kv-store",
-            "fastly:logger",
-            "fastly:secret-store"
-          ],
           noExternal: true,
         },
         build: {
@@ -61,11 +47,7 @@ export function fastlyAdapter(opts: FastlyAdapterOptions = {}): any {
         await fs.promises.writeFile(
           computeJsPath,
           [
-            `/// <reference types="@fastly/js-compute"/>`,
             `import { fetch } from "${normalizePathSlash(importPath)}"; export default { fetch };`,
-            // FIXME: Shim to test env functionality in empty qwik city project
-            `import { env } from "fastly:env";`,
-            `globalThis.env = env;`,
             `addEventListener('fetch', (event) => event.respondWith(fetch(event)))`,
           ].join('\n')
         );

@@ -127,15 +127,7 @@ export interface QwikCityFastlyOptions extends ServerRenderOptions { }
 /**
  * @public
  */
-export interface PlatformFastly {
-  // Extending from or using FetchEvent found in @fastly/js-compute causes the following error:
-  //   ❌ Error: Internal Error: Unable to follow symbol for "FetchEvent"
-  //   https://js-compute-reference-docs.edgecompute.app/docs/globals/FetchEvent/
-  readonly client: ClientInfo;
-  readonly request: Request;
-  respondWith(response: Response | PromiseLike<Response>): void;
-  waitUntil(promise: Promise<any>): void;
-}
+export interface PlatformFastly extends FetchEvent { }
 
 const resolved = Promise.resolve();
 class TextEncoderStream {
