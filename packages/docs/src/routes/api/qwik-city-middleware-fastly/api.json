@@ -26,7 +26,7 @@
         }
       ],
       "kind": "Interface",
-      "content": "```typescript\nexport interface PlatformFastly \n```\n\n\n|  Property | Modifiers | Type | Description |\n|  --- | --- | --- | --- |\n|  [client](#) | <code>readonly</code> | ClientInfo |  |\n|  [request](#) | <code>readonly</code> | Request |  |\n\n\n|  Method | Description |\n|  --- | --- |\n|  [respondWith(response)](#platformfastly-respondwith) |  |\n|  [waitUntil(promise)](#platformfastly-waituntil) |  |",
+      "content": "```typescript\nexport interface PlatformFastly extends FetchEvent \n```\n**Extends:** FetchEvent",
       "editUrl": "https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/middleware/fastly/index.ts",
       "mdFile": "qwik-city.platformfastly.md"
     },
@@ -43,40 +43,6 @@
       "content": "```typescript\nexport interface QwikCityFastlyOptions extends ServerRenderOptions \n```\n**Extends:** ServerRenderOptions",
       "editUrl": "https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/middleware/fastly/index.ts",
       "mdFile": "qwik-city.qwikcityfastlyoptions.md"
-    },
-    {
-      "name": "respondWith",
-      "id": "platformfastly-respondwith",
-      "hierarchy": [
-        {
-          "name": "PlatformFastly",
-          "id": "platformfastly-respondwith"
-        },
-        {
-          "name": "respondWith",
-          "id": "platformfastly-respondwith"
-        }
-      ],
-      "kind": "MethodSignature",
-      "content": "```typescript\nrespondWith(response: Response | PromiseLike<Response>): void;\n```\n\n\n|  Parameter | Type | Description |\n|  --- | --- | --- |\n|  response | Response \\| PromiseLike&lt;Response&gt; |  |\n\n**Returns:**\n\nvoid",
-      "mdFile": "qwik-city.platformfastly.respondwith.md"
-    },
-    {
-      "name": "waitUntil",
-      "id": "platformfastly-waituntil",
-      "hierarchy": [
-        {
-          "name": "PlatformFastly",
-          "id": "platformfastly-waituntil"
-        },
-        {
-          "name": "waitUntil",
-          "id": "platformfastly-waituntil"
-        }
-      ],
-      "kind": "MethodSignature",
-      "content": "```typescript\nwaitUntil(promise: Promise<any>): void;\n```\n\n\n|  Parameter | Type | Description |\n|  --- | --- | --- |\n|  promise | Promise&lt;any&gt; |  |\n\n**Returns:**\n\nvoid",
-      "mdFile": "qwik-city.platformfastly.waituntil.md"
     }
   ]
 }

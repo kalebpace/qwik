@@ -27,18 +27,10 @@ export declare function createQwikCity(
 ## PlatformFastly
 
 ```typescript
-export interface PlatformFastly
+export interface PlatformFastly extends FetchEvent
 ```
 
-| Property     | Modifiers             | Type       | Description |
-| ------------ | --------------------- | ---------- | ----------- |
-| [client](#)  | <code>readonly</code> | ClientInfo |             |
-| [request](#) | <code>readonly</code> | Request    |             |
-
-| Method                                               | Description |
-| ---------------------------------------------------- | ----------- |
-| [respondWith(response)](#platformfastly-respondwith) |             |
-| [waitUntil(promise)](#platformfastly-waituntil)      |             |
+**Extends:** FetchEvent
 
 [Edit this section](https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/middleware/fastly/index.ts)
 
@@ -51,31 +43,3 @@ export interface QwikCityFastlyOptions extends ServerRenderOptions
 **Extends:** ServerRenderOptions
 
 [Edit this section](https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/middleware/fastly/index.ts)
-
-## respondWith
-
-```typescript
-respondWith(response: Response | PromiseLike<Response>): void;
-```
-
-| Parameter | Type                                    | Description |
-| --------- | --------------------------------------- | ----------- |
-| response  | Response \| PromiseLike&lt;Response&gt; |             |
-
-**Returns:**
-
-void
-
-## waitUntil
-
-```typescript
-waitUntil(promise: Promise<any>): void;
-```
-
-| Parameter | Type               | Description |
-| --------- | ------------------ | ----------- |
-| promise   | Promise&lt;any&gt; |             |
-
-**Returns:**
-
-void

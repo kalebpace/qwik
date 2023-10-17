@@ -13,15 +13,7 @@ import { SimpleCacheEntry } from 'fastly:cache';
 export function createQwikCity(opts: QwikCityFastlyOptions): (platform: PlatformFastly) => Promise<Response | SimpleCacheEntry>;
 
 // @public (undocumented)
-export interface PlatformFastly {
-    // (undocumented)
-    readonly client: ClientInfo;
-    // (undocumented)
-    readonly request: Request;
-    // (undocumented)
-    respondWith(response: Response | PromiseLike<Response>): void;
-    // (undocumented)
-    waitUntil(promise: Promise<any>): void;
+export interface PlatformFastly extends FetchEvent {
 }
 
 // @public (undocumented)
