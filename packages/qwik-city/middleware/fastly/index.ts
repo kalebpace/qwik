@@ -11,8 +11,10 @@ import { isStaticPath } from '@qwik-city-static-paths';
 import { _deserializeData, _serializeData, _verifySerializable } from '@builder.io/qwik';
 import { setServerPlatform } from '@builder.io/qwik/server';
 
-import { env } from "fastly:env"
-import { SimpleCache } from "fastly:cache";
+import type { PublisherServer } from '@fastly/compute-js-static-publish';
+import type { FetchEvent, fetch as FastlyFetch } from '@fastly/js-compute/lib';
+import { SimpleCache } from '@fastly/js-compute/lib/cache';
+import { env } from '@fastly/js-compute/lib/env';
 
 // @builder.io/qwik-city/middleware/fastly
 
@@ -28,15 +30,15 @@ export function createQwikCity(opts: QwikCityFastlyOptions) {
   if (opts.manifest) {
     setServerPlatform(opts.manifest);
   }
-  async function onFastlyFetch(platform: PlatformFastly) {
+  async function onFastlyFetch(event: FetchEvent, staticContentServer: PublisherServer) {
     (globalThis as any).TextEncoderStream = TextEncoderStream;
     try {
-      const { request, client } = platform;
+      const { request, client } = event;
       const url = new URL(request.url);
 
       if (isStaticPath(request.method, url)) {
-        // known static path, let fastly handle it.
-        return fetch(request, { backend: platform.request.backend });
+        const response = await staticContentServer.serveRequest(request as unknown as Request);
+        return response
       }
 
       const useCache =
@@ -54,7 +56,7 @@ export function createQwikCity(opts: QwikCityFastlyOptions) {
         mode: 'server',
         locale: undefined,
         url,
-        request,
+        request: request as unknown as ServerRequestEvent['request'],
         env: {
           get(key) {
             return env(key);
@@ -75,7 +77,12 @@ export function createQwikCity(opts: QwikCityFastlyOptions) {
             country: client.geo.country_name || undefined
           };
         },
-        platform,
+        platform: {
+          env: env,
+          fetch: fetch as unknown as typeof FastlyFetch,
+          request: request,
+          waitUntil: event.waitUntil
+        } satisfies PlatformFastly,
       };
 
       // send request to qwik city request handler
@@ -89,7 +96,7 @@ export function createQwikCity(opts: QwikCityFastlyOptions) {
         const response = await handledResponse.response;
         if (response) {
           if (useCache && response.ok && response.body && response.headers.has('Cache-Control')) {
-            platform.waitUntil(SimpleCache.getOrSet(cacheKey, async () => {
+            event.waitUntil(SimpleCache.getOrSet(cacheKey, async () => {
               return {
                 value: response.body!,
                 ttl: 60
@@ -127,12 +134,16 @@ export interface QwikCityFastlyOptions extends ServerRenderOptions { }
 /**
  * @public
  */
-export interface PlatformFastly extends FetchEvent { }
+export interface PlatformFastly {
+  env: typeof env,
+  fetch: typeof FastlyFetch,
+  request: FetchEvent['request'],
+  waitUntil: FetchEvent['waitUntil'],
+}
 
 const resolved = Promise.resolve();
 class TextEncoderStream {
   // minimal polyfill implementation of TextEncoderStream
-  // borrowed from Cloudflare Pages adapter
   _writer: any;
   readable: any;
   writable: any;

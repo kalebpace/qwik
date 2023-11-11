@@ -4,16 +4,28 @@
 
 ```ts
 
-/// <reference types="@fastly/js-compute" />
+/// <reference types="@fastly/js-compute/types/fastly:cache" />
 
+import { env } from '@fastly/js-compute/lib/env';
+import type { fetch as fetch_2 } from '@fastly/js-compute/lib';
+import type { FetchEvent } from '@fastly/js-compute/lib';
+import type { PublisherServer } from '@fastly/compute-js-static-publish';
 import type { ServerRenderOptions } from '@builder.io/qwik-city/middleware/request-handler';
 import { SimpleCacheEntry } from 'fastly:cache';
 
 // @public (undocumented)
-export function createQwikCity(opts: QwikCityFastlyOptions): (platform: PlatformFastly) => Promise<Response | SimpleCacheEntry>;
+export function createQwikCity(opts: QwikCityFastlyOptions): (event: FetchEvent, staticContentServer: PublisherServer) => Promise<Response | SimpleCacheEntry | null>;
 
 // @public (undocumented)
-export interface PlatformFastly extends FetchEvent {
+export interface PlatformFastly {
+    // (undocumented)
+    env: typeof env;
+    // (undocumented)
+    fetch: typeof fetch_2;
+    // (undocumented)
+    request: FetchEvent['request'];
+    // (undocumented)
+    waitUntil: FetchEvent['waitUntil'];
 }
 
 // @public (undocumented)

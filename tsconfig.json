@@ -153,11 +153,7 @@
     "packages/qwik-react/vite",
     "@types/deno.d.ts",
     "@types/bun.d.ts",
-<<<<<<< HEAD
     "types.d.ts"
-=======
-    "@types/fastly.d.ts"
->>>>>>> 1f111fd67 (feat: initial build with fastly types)
   ],
   "exclude": [
     "packages/create-qwik/dist",

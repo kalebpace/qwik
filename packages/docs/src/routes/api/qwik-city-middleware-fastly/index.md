@@ -10,8 +10,9 @@ title: \@builder.io/qwik-city/middleware/fastly API Reference
 export declare function createQwikCity(
   opts: QwikCityFastlyOptions,
 ): (
-  platform: PlatformFastly,
-) => Promise<Response | import("fastly:cache").SimpleCacheEntry>;
+  event: FetchEvent,
+  staticContentServer: PublisherServer,
+) => Promise<Response | import("fastly:cache").SimpleCacheEntry | null>;
 ```
 
 | Parameter | Type                                            | Description |
@@ -20,17 +21,22 @@ export declare function createQwikCity(
 
 **Returns:**
 
-(platform: [PlatformFastly](#platformfastly)) =&gt; Promise&lt;Response \| import("fastly:cache").SimpleCacheEntry&gt;
+(event: FetchEvent, staticContentServer: PublisherServer) =&gt; Promise&lt;Response \| import("fastly:cache").SimpleCacheEntry \| null&gt;
 
 [Edit this section](https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/middleware/fastly/index.ts)
 
 ## PlatformFastly
 
 ```typescript
-export interface PlatformFastly extends FetchEvent
+export interface PlatformFastly
 ```
 
-**Extends:** FetchEvent
+| Property       | Modifiers | Type                    | Description |
+| -------------- | --------- | ----------------------- | ----------- |
+| [env](#)       |           | typeof env              |             |
+| [fetch](#)     |           | typeof FastlyFetch      |             |
+| [request](#)   |           | FetchEvent['request']   |             |
+| [waitUntil](#) |           | FetchEvent['waitUntil'] |             |
 
 [Edit this section](https://github.com/BuilderIO/qwik/tree/main/packages/qwik-city/middleware/fastly/index.ts)
 

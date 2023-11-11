@@ -10680,6 +10680,14 @@ packages:
       - supports-color
     dev: true
 
+  /fastly@6.2.2:
+    resolution: {integrity: sha512-ljW2w73fAB2ZkASiKryt9V7swMv1Qt3uyf0WCr8LTHvx0j0dfkC2lplXO+Oqb5r9ryIRJht6keMsyxKC0CIhDQ==}
+    dependencies:
+      superagent: 6.1.0
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /fastq@1.15.0:
     resolution: {integrity: sha512-wBrocU2LCXXa+lWBt8RoIRD89Fi8OdABODa/kEnyeyjS5aZO5/GNvI5sEINADqP/h8M29UHTHUb53sUu5Ihqdw==}
     dependencies:
